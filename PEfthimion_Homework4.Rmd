@@ -1,0 +1,116 @@
+---
+title: "PEfthimion_Homework4"
+output: html_document
+---
+The Central Limit Theorem states that if you have a sufficient number or randomly selected, independant sample, the means of those samples will follow a normal distribution, even if the population we are sampling does not.
+
+The first thing that we need in a bootstrap is a sample.
+Here, we create a sample with a normal distribution and find it's mean.
+```{r NormalSample1, include=TRUE}
+x <-rnorm(50, 22, 5)
+xbar <- mean(x)
+```
+
+Next we need to say how many simulations we will be doing. Here we say 1000.
+We also make sure that R knows that the number of simulations is a numeric value.
+```{r NumOfSimulations}
+nsims <- 100
+bootnorm <- numeric(nsims)
+```
+
+Now, for each nsim = 1000 simulations, we take a sample from x.
+Then, we save the average of that sample to bootnorm.
+We will use these averages to prove if the Central Limit Theory is true for x.
+
+```{r loop}
+for(i in 1:nsims){
+     temp <- sample(x, 50, replace = TRUE)
+     bootnorm[i] <- mean(temp)
+}
+```
+
+Now let's check to see if the Central Limit Theory applies.
+
+```{r graphs}
+summary(bootnorm)
+hist(bootnorm)
+```
+
+And let's double check with the bias to see any diference between this sample and the theoretical mean
+```{r bias}
+est.bias <-xbar - mean(bootnorm)
+est.bias
+```
+We can see here there is some, but very little bias. Thus we prove the Central Limit Theorem.
+
+Now lets try this again with a much larger sample size and see how much more normalized the sample becomes.
+
+Other than changing the sample size, so nsims from 100 to 1000.
+
+```{r SampSize1000}
+nsims <- 1000
+bootnorm <- numeric(nsims)
+for(i in 1:nsims){
+  temp <- sample(x, 50, replace = TRUE)
+  bootnorm[i] <- mean(temp)
+}
+summary(bootnorm)
+hist(bootnorm)
+```
+
+```{r bias2}
+est.bias <-xbar - mean(bootnorm)
+est.bias
+```
+As we can see here, the histogram looks a lot more normal for a sample for size 1000 than it did for 100. This is consistent with the Central Limit Theorem.
+
+
+Now we will illustrate the central limit theorem with the exponential distribution instead of with a normal distribution. This would be possible because even if the data itself is not normally distributed, the means of the data will be. The bootstrp method uses the means of each sample taken so we will be able to use the exponsntial distribution to illustrate the central limit theorem.
+
+Here is the one change in the code we will make for the exponential distribution. Since we are not doing a normal distribution we change x using rnorm into rexp. Also, like we did for the normal distribution, we will first be using 100 simulations with this example and 1,000 in the next.
+
+```{r ExponentialDistribution}
+x <-rexp(50)
+xbar <- mean(x)
+nsims <- 100
+```
+
+
+The rest of the code is the same as it was for the normal distribution as we explained above.
+
+```{r bootexp}
+bootexp <- numeric(nsims)
+for(i in 1:nsims){
+  temp <- sample(x, 50, replace = TRUE)
+  bootexp[i] <- mean(temp)
+}
+summary(bootexp)
+hist(bootexp)
+```
+
+```{r bias3}
+est.bias <-xbar - mean(bootnorm)
+est.bias
+```
+Now, we will do the same code again with the only change being doing 1000 simulations. According to the central limit theorem, this will make the data look more normal.
+
+```{r bootexp1000}
+x <-rexp(50)
+xbar <- mean(x)
+nsims <- 1000
+bootexp <- numeric(nsims)
+for(i in 1:nsims){
+  temp <- sample(x, 50, replace = TRUE)
+  bootexp[i] <- mean(temp)
+}
+summary(bootexp)
+hist(bootexp)
+```
+
+This data looks much more normal with 1,000 simulations than it did when we only did 100. This is further proof of the central limit theorem.
+
+
+```{r bias4}
+est.bias <-xbar - mean(bootnorm)
+est.bias
+```
