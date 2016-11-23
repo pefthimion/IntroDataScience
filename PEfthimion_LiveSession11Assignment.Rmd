@@ -1,0 +1,72 @@
+---
+title: "PEfthimion_LiveSession11Assignment"
+output: html_document
+---
+Phillip Efthimion
+Post Live Session Unit 11 Assignment
+Intro to Data Science
+Thursday 6:30
+
+
+First we install and load the fpp package so we can work with time series.
+```{r setup, include=TRUE}
+library(fpp)
+```
+
+a)
+```{r plot time series}
+data("visitors")
+plot(visitors)
+```
+We can definetly see that there are seasonal fluctuations within the data.The data seems to go through intervals of three peaks starting with a very small one, then the largest of the three, and the third peak is about half the height of the second. Even though the number of visitors is trending upwords as time increases, this seasonality can be readily seen throughout the data. The trend is roughly linear.
+
+b)
+```{r decomposition}
+fitd <- decompose(visitors)
+plot(fitd)
+```
+The seasonal indicies seems to occur quarterly. 
+
+c)
+
+The results do support our findings in part a. The second graphic from the top shows the trend which is going upwards. 
+
+The third graphic from the top is the seasonality. It supports our findings in part a. It shows that for every iteration of the season there are three peaks. The first one is very small, the second one is the highest, and then the third one is roughly half the height of the second. 
+
+d)
+
+```{r seasonally adjusted}
+visitors_adj <- seasadj(fitd)
+plot(visitors_adj)
+```
+With the seasonally adjuted data, our trend is still intact. It is moving upwards as it was before. It even has the two slight dips as our original time series did. 
+
+However, the seasonality looks different, as it should since we adjusted for it.
+
+
+e)
+
+```{r outlier middle}
+length(visitors)
+visitors_outlier_middle <- ts(c(visitors[1:119], visitors[120]+500, visitors[121:240]))
+plot(visitors_outlier_middle)
+```
+The outlier does not fit with the pattern of the seasonality or the trends. Outliers have negative effects because they can distort our time series analysis such as moving averages. 
+
+f)
+
+```{r outlier end}
+visitors_outlier_end <- ts(c(visitors[1:239], visitors[240]+500))
+plot(visitors_outlier_end)
+```
+Yes, it does make a difference where the outlier is. The trend cycle component is overestimated prior to the outlier and afterwords it becomes inflated. So the trend cycle component will be different depending on if the outlier is in the middle or end of the data set.
+
+
+g)
+
+```{r stl}
+fitg <- stl(visitors, s.window = 10)
+plot(fitg)
+```
+
+
