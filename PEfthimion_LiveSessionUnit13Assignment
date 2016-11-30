@@ -1,0 +1,95 @@
+# Phillip Efthimion
+# Intro to Data Science
+# Thursday 6:30
+# Live Session Unit 13 Assignment
+
+# 1
+
+my_list=[45.4, 44.2, 36.8, 35.1, 39.0, 60.0, 47.4, 41.1, 45.8, 35.6]
+
+# a
+
+print(my_list[4])
+
+# b
+
+my_list.append(55.2)
+print(my_list)
+
+# c
+
+my_list.pop(5)
+print(my_list)
+
+# d
+
+for value in my_list:
+	if value > 45:
+		print(value)
+
+
+# 2
+
+# a
+
+import numpy
+
+# b
+my_array = numpy.array(my_list)
+print(my_array)
+
+# c
+
+print(numpy.mean(my_array))
+print(numpy.std(my_array))
+
+# d
+
+print(45 > my_array)
+
+# e
+
+print(numpy.max(my_array))
+print(numpy.min(my_array))
+
+# 3
+
+# a
+
+import pandas
+
+# b
+
+iris = pandas.read_csv("/Users/Phillip/anaconda/pkgs/bokeh-0.12.2-py35_0/lib/python3.5/site-packages/bokeh/sampledata/iris.csv")
+
+# c
+
+print(iris.head())
+
+# d
+
+print('There is no id column to drop')
+
+# e
+
+subset_e = iris[iris.species=='setosa']
+print(subset_e)
+
+# f
+
+print(iris.describe())
+
+# g
+
+BySpecies = iris.groupby('species')
+print(BySpecies.describe())
+
+# h
+
+import matplotlib
+iris.boxplot()
+
+# i
+
+import seaborn as sns
+sns.pairplot(iris,hue='species')
